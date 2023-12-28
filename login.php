@@ -12,29 +12,59 @@ if (isset($_POST['Submit'])) {
     $email = $_POST['email'];
     $password = $_POST["password"];
 
-    if (!IsVariableIsSetOrEmpty($email) && !IsVariableIsSetOrEmpty($password)) {
-        if (empty($errors) == true) {
-            $query = "SELECT * from profile WHERE email = '$email' && password = '$password'";
-            $stmt = $connection->prepare($query);
-            $stmt->bindParam('username', $username, PDO::PARAM_STR);
-            $stmt->bindValue('password', $password, PDO::PARAM_STR);
-            $stmt->execute();
-            $count = $stmt->rowCount();
-            $row   = $stmt->fetch(PDO::FETCH_ASSOC);
+    // if (!IsVariableIsSetOrEmpty($email) && !IsVariableIsSetOrEmpty($password)) {
+    //     if (empty($errors) == true) {
+    //         // Use prepared statement with bound parameters to prevent SQL injection
+    //         $query = "SELECT * from profile WHERE email = :email";
+    //         $stmt = $connection->prepare($query);
+    //         $stmt->bindParam(':email', $email, PDO::PARAM_STR);
+    //         $stmt->execute();
 
-           if($count === 0 || $row <= 2 ){
-               array_push($errors, 'Incorrect Username / Password');
-           }else{
-                $_SESSION['userId'] = $row['id'];
-                $_SESSION['user'] = $row;
-               if (isset($_SESSION['userId'])) {
-                   header("Location: index.php");
-               }
-           }
+    //         // Fetch user data from the database
+    //         $row = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    //         if ($row && password_verify($password, $row['password'])) {
+    //             // Login successful
+    //             $_SESSION['userId'] = $row['id'];
+    //             $_SESSION['user'] = $row;
+    //             header("Location: index.php");
+    //             exit;
+    //         } else {
+    //             // Login failed
+    //             array_push($errors, 'Incorrect Email or Password');
+    //         }
+    //     }
+    // }
+    // ... Your previous code ...
+
+if (!IsVariableIsSetOrEmpty($email) && !IsVariableIsSetOrEmpty($password)) {
+    if (empty($errors) == true) {
+        $query = "SELECT * from profile WHERE email = :email";
+        $stmt = $connection->prepare($query);
+        $stmt->bindParam(':email', $email, PDO::PARAM_STR);
+        $stmt->execute();
+
+        // Fetch user data from the database
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if ($row && password_verify($password, $row['password'])) {
+            // Login successful
+            $_SESSION['userId'] = $row['id'];
+            $_SESSION['user'] = $row;
+            header("Location: index.php");
+            exit;
+        } else {
+            // Login failed
+            array_push($errors, 'Incorrect Email or Password');
         }
     }
 }
+
+}
 ?>
+
+<!-- Rest of the HTML code remains unchanged -->
+
 
 <!doctype html>
 <html lang="en">
@@ -83,7 +113,7 @@ if (isset($_POST['Submit'])) {
                             <form class="form-signin" action="login.php" method="post" enctype="multipart/form-data">
                                 <div class="form-label-group">
                                     <input type="text" id="inputUserame" name="email" pattern="^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$" class="form-control" placeholder="Username" required autofocus>
-                                    <label for="inputUserame">Username</label>
+                                    <label for="inputUserame">Email</label>
                                 </div>
                                <hr>
 

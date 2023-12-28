@@ -11,7 +11,7 @@ if (isset($_SESSION["userId"])) {
     <nav class="navbar navbar-dark bg-dark navbar-expand-sm">
         <a class="navbar-brand" href="./index.php">
             <!--        <img src="https://s3.eu-central-1.amazonaws.com/bootstrapbaymisc/blog/24_days_bootstrap/logo_white.png" width="30" height="30" alt="logo">-->
-            ONLINE <span class="text-warning ">DATING</span>
+            Match <span class="text-warning ">Made</span>
         </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-list-2"
                 aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">

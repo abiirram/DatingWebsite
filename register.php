@@ -22,7 +22,7 @@ if (isset($_POST['Submit'])) {
     $dateOfBirth = $_POST["birthDate"];
     $gender = $_POST["gender"];
 
-    if($password === $confirmpassword) {
+    if ($password === $confirmpassword) {
 
         if (!IsVariableIsSetOrEmpty($email) && !IsVariableIsSetOrEmpty($firstName) && !IsVariableIsSetOrEmpty($lastName) && !IsVariableIsSetOrEmpty($password) && !IsVariableIsSetOrEmpty($dateOfBirth) && !IsVariableIsSetOrEmpty($gender)) {
             if (!IsVariableIsSetOrEmpty($_FILES['fileUpload'])) {
@@ -39,14 +39,24 @@ if (isset($_POST['Submit'])) {
                     array_push($errors, 'File size must be less than 5 MB');
                 }
 
-                if (empty($errors) == true) {
+                if (empty($errors)) {
+
+                    $hashedPassword = password_hash($password, PASSWORD_DEFAULT); // Hash the password
 
                     $imageURL = $imageURL . $file_name;
                     move_uploaded_file($file_tmp, $imageURL);
                     $image_uploaded = true;
                     try {
-                        $insertQueryForRegister = "INSERT INTO datingdb.profile(email,password,firstName,lastName,city,birthDate,gender,imgUrl,user_role) values('$email','$password','$firstName','$lastName','$city','$dateOfBirth','$gender','$imageURL','regular')";
+                        $insertQueryForRegister = "INSERT INTO datingdb.profile(email,password,firstName,lastName,city,birthDate,gender,imgUrl,user_role) values(:email, :password, :firstName, :lastName, :city, :dateOfBirth, :gender, :imageURL, 'regular')";
                         $insertQueryForRegisterstmt = $connection->prepare($insertQueryForRegister);
+                        $insertQueryForRegisterstmt->bindParam(':email', $email, PDO::PARAM_STR);
+                        $insertQueryForRegisterstmt->bindParam(':password', $hashedPassword, PDO::PARAM_STR);
+                        $insertQueryForRegisterstmt->bindParam(':firstName', $firstName, PDO::PARAM_STR);
+                        $insertQueryForRegisterstmt->bindParam(':lastName', $lastName, PDO::PARAM_STR);
+                        $insertQueryForRegisterstmt->bindParam(':city', $city, PDO::PARAM_STR);
+                        $insertQueryForRegisterstmt->bindParam(':dateOfBirth', $dateOfBirth, PDO::PARAM_STR);
+                        $insertQueryForRegisterstmt->bindParam(':gender', $gender, PDO::PARAM_STR);
+                        $insertQueryForRegisterstmt->bindParam(':imageURL', $imageURL, PDO::PARAM_STR);
                         $insertQueryForRegisterstmt->execute();
                         $registerSuccessfully = true;
                     } catch (PDOException $exception) {
@@ -56,11 +66,14 @@ if (isset($_POST['Submit'])) {
                 }
             }
         }
-    }else{
-        array_push($errors, 'Password and Confirm Password doesnt match');
+    } else {
+        array_push($errors, 'Password and Confirm Password do not match');
     }
 }
 ?>
+
+<!-- Rest of the HTML code remains unchanged -->
+
 
 <!doctype html>
 <html lang="en">

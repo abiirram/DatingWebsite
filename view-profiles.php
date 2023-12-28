@@ -343,7 +343,7 @@ if (isset($_GET['addToFavouriteId']) && $userObj["user_role"] === "premium") {
                             <li class="list-group-item">Age: <?php
                                 try {
                                     $birthDay = new DateTime($profile["birthDate"]);
-                                    $today = new Datetime(date('y-d-m'));
+                                    $today = new DateTime(date('Y-m-d'));
                                     $diff = $today->diff($birthDay);
                                     echo "$diff->y years";
                                 } catch (Exception $e) {
