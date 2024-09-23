@@ -1,6 +1,3 @@
-# Dating Site PHP by Vatsal Chauhan and Meet Patel
-### Repo Link: https://github.com/vatsal121/datingSitePHP
-
 <div align="center">
     <h3>Project Demo</h3>
 </div>
@@ -127,7 +124,7 @@ testing@gmail.com | test | premium user
 
 ##### The functionality achieved in the following pages are fully implemented by us individually.
 
-- Vatsal Chauhan
+- Abhiram menon
                     
 Pages  | Folders 
 ------------- | -------------
@@ -139,7 +136,7 @@ chat-users.php  |  root Folder
 logout.php  |  root Folder 
 
 
-- Meet Patel
+- Adharsh Sajeesh
                     
 Pages  | Folders 
 ------------- | -------------
@@ -150,7 +147,7 @@ favourite_list.php  |  root Folder
 
 ##### The functionality achieved in the following pages are fully implemented by us both.
 
-- Tasks By Vatsal Chauhan and Meet Patel combined
+
                     
 Pages  | Folders 
 ------------- | -------------
@@ -161,5 +158,5 @@ style.css  |  css Folder
 site_images,user_images | images Folder
 index.php | root Folder
 
-### Database Designed by Vatsal Chauhan and Meet Patel
+
 
